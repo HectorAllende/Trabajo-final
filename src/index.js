@@ -10,12 +10,14 @@ const PORT = 4000
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
+app.get('/products', async(req, res) =>{
+    res.send(await product.getProducts())
+})
+
 app.post("/products", async (req, res) =>{
     let newProduct = req.body
     res.send(await product.writeProducts(newProduct))
 })
-
-
 
 app.listen(PORT, ()=>{
     console.log(`Servidor Express Puerto ${PORT}`)

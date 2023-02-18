@@ -5,12 +5,20 @@ class ProductManager {
         this.path = "./src/models/products.json"
     }
 
-    writeProducts = async (product) =>{
+    readProducts = async () =>{
         let products = await fs.readFile(this.path, "utf-8")
-        let productsParse = JSON.parse(products)
-        let productAll = [...productsParse, product]
+        return JSON.parse(products)
+    }
+
+    writeProducts = async (product) =>{
+        let productsOld = await this.readProducts()
+        let productAll = [...productsOld, product]
         await fs.writeFile (this.path,JSON.stringify(productAll))
         return "Producto Agregado"
+    };
+
+    getProducts = async () =>{
+        return await this.readProducts()
     }
 
 }
