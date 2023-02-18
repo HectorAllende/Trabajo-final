@@ -1,4 +1,5 @@
 import {promises as fs} from 'fs'
+import { nanoid } from 'nanoid'
 
 class ProductManager {
     constructor(){
@@ -10,15 +11,27 @@ class ProductManager {
         return JSON.parse(products)
     }
 
-    writeProducts = async (product) =>{
+    writeProducts = async (product)=>{
+        await fs.writeFile (this.path,JSON.stringify(product))
+    }
+
+    addProducts = async (product) =>{
         let productsOld = await this.readProducts()
+        product.id = nanoid()
         let productAll = [...productsOld, product]
-        await fs.writeFile (this.path,JSON.stringify(productAll))
+        await this.writeProducts(productAll)
         return "Producto Agregado"
     };
 
     getProducts = async () =>{
         return await this.readProducts()
+    }
+
+    getProductsById = async (id) =>{
+
+        let products = await this.readProducts()
+        let productById = products.find( prod => prod.id === id)
+        return productById
     }
 
 }
