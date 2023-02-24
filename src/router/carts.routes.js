@@ -12,4 +12,10 @@ CartRouter.get('/', async (req, res) =>{
     res.send( await carts.readCarts())
 })
 
+CartRouter.get('/:id', async (req, res) =>{
+    res.send( await carts.getCartsById(req.params.id))
+})
+
+
+
 export default CartRouter

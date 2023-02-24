@@ -15,6 +15,11 @@ class CartManager {
         await fs.writeFile (this.path,JSON.stringify(carts))
     }
 
+    exist = async (id) =>{
+        let carts = await this.readCarts()
+        return carts.find( cart => cart.id === id)
+    }
+
     addCarts = async () =>{
         let cartsOld = await this.readCarts()
         let id = nanoid()
@@ -23,6 +28,13 @@ class CartManager {
         await this.writeCarts(cartsConcat)
         return "carrito Agregado"
 
+    }
+
+    getCartsById = async (id) =>{
+        let cartById = await this.exist(id)
+        if(!cartById ) return "carrito no encontrado"
+
+        return cartById
     }
 }
 
