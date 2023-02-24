@@ -19,6 +19,17 @@ app.get('/products/:id', async(req, res) =>{
     res.send(await product.getProductsById(id))
 })
 
+app.delete("/products/:id", async (req, res)=>{
+    let id = req.params.id
+    res.send(await product.deleteProduct(id))
+
+})
+
+app.put("/products/:id", async (req, res)=>{
+    let id = req.params.id
+    let updateProduct = req.body
+    res.send(await product.updateProducts(id, updateProduct))
+})
 
 
 app.post("/products", async (req, res) =>{
