@@ -50,15 +50,16 @@ class CartManager {
         let cartFilter = cartsAll.filter(cart => cart.id != cartId)
 
         if(cartById.products.some(prod => prod.id === productId)){
-            let productInCart = cartById.products.find(prod => prod.id === productId)
-            productInCart.cantidad++
+            let moreProductInCart = cartById.products.find(prod => prod.id === productId)
+            moreProductInCart.cantidad++
             let cartsConcat = [ cartById, ...cartFilter]
             await this.writeCarts(cartsConcat)
             return "Producto sumado agregado al carrito"
         }
 
+        cartById.products.push({ id: productById.id, cantidad: 1 })
 
-        let cartsConcat = [{ id: cartId, products: [{ id: productById.id, cantidad: 1 }] }, cartFilter]
+        let cartsConcat = [ cartById, ...cartFilter]
         await this.writeCarts(cartsConcat)
         return "Producto agregado al carrito"
 
